@@ -1,0 +1,1 @@
+<nav class="mobile-bottom-nav" aria-label="دسترسی سریع موبایل"><a href="{{ route('storefront.home') }}">خانه</a><a href="{{ route('storefront.search') }}">جست‌وجو</a><a href="{{ route('wishlist.index') }}">علاقه‌مندی</a><a href="{{ route('cart.index') }}">سبد خرید</a><a href="{{ route('account.index') }}">حساب</a></nav>

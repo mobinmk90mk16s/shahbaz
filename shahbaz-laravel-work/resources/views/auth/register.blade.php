@@ -1,0 +1,11 @@
+@extends('layouts.storefront')
+@section('title', 'ثبت‌نام | شهباز')
+@section('page-type', 'account')
+@section('content')
+<section class="container section-space auth-page"><div class="auth-card"><span class="section-kicker">به شهباز خوش آمدی</span><h1>ساخت حساب کاربری</h1><p>شماره موبایل شناسه اصلی حساب است؛ ایمیل اختیاری است.</p>
+@if(session('otp_notice'))<div class="account-notice" role="status"><span><x-icon name="check" /></span><div><strong>{{ session('otp_notice') }}</strong></div></div><form action="{{ route('auth.register.otp.verify') }}" method="POST" class="profile-form">@csrf<input type="hidden" name="mobile" value="{{ session('otp_mobile') }}"><label>کد تأیید پیامک‌شده<input type="text" name="code" required inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9۰-۹٠-٩]{6}" dir="ltr"></label><button class="button button-dark button-full" type="submit">تأیید شماره و ساخت حساب</button></form><form action="{{ route('auth.register.otp.resend') }}" method="POST" class="profile-form">@csrf<input type="hidden" name="mobile" value="{{ session('otp_mobile') }}"><button class="button button-light button-full" type="submit">ارسال مجدد کد</button></form>
+@else
+<form class="profile-form" action="{{ route('auth.register.otp.request') }}" method="POST">@csrf<div class="form-grid"><label>نام و نام خانوادگی<input type="text" name="name" value="{{ old('name') }}" required minlength="2" maxlength="120" autocomplete="name"></label><label>شماره موبایل<input type="tel" name="mobile" value="{{ old('mobile') }}" required dir="ltr" inputmode="tel" autocomplete="tel" placeholder="0912xxxxxxx"></label><label>ایمیل (اختیاری)<input type="email" name="email" value="{{ old('email') }}" maxlength="254" autocomplete="email"></label><label>رمز عبور<input type="password" name="password" required minlength="8" autocomplete="new-password"></label><label>تکرار رمز عبور<input type="password" name="password_confirmation" required minlength="8" autocomplete="new-password"></label></div><button class="button button-dark button-full" type="submit">ارسال کد تأیید</button></form>
+@endif
+<p class="auth-switch">قبلاً ثبت‌نام کرده‌ای؟ <a href="{{ route('login') }}">وارد شو</a></p></div></section>
+@endsection

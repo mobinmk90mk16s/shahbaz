@@ -1,0 +1,15 @@
+@extends('layouts.storefront')
+@section('title', 'حساب کاربری | شهباز')
+@section('page-type', 'account')
+@section('content')
+<section class="account-page container section-space"><div class="section-heading"><span class="section-kicker">فضای شخصی</span><h1>حساب کاربری</h1><p>مدیریت اطلاعات و دسترسی‌های حساب شهباز</p></div>
+@if(auth()->check())
+<div class="account-layout"><aside class="account-sidebar"><div class="account-avatar"><x-icon name="user" /></div><strong>{{ auth()->user()->name }}</strong><span>{{ auth()->user()->mobile }}</span><form action="{{ route('logout') }}" method="POST">@csrf<button class="button button-light button-full" type="submit">خروج از حساب</button></form></aside>
+<div class="account-main"><div class="account-notice"><span><x-icon name="shield" /></span><div><strong>حساب تأییدشده</strong><p>شماره موبایل شناسه اصلی حساب کاربری توست.</p></div></div>
+<form class="profile-form" action="{{ route('account.profile.update') }}" method="POST">@csrf @method('PUT')<div class="form-heading"><h2>اطلاعات شخصی</h2><p>اطلاعات تماس خود را به‌روز نگه دار.</p></div><div class="form-grid"><label>نام و نام خانوادگی<input type="text" name="name" value="{{ old('name',auth()->user()->name) }}" required maxlength="120"></label><label>شماره موبایل<input type="tel" value="{{ auth()->user()->mobile }}" readonly dir="ltr"><small>شماره اصلی حساب در این بخش قابل تغییر نیست.</small></label><label>ایمیل (اختیاری)<input type="email" name="email" value="{{ old('email',auth()->user()->email) }}" maxlength="254"></label></div><div class="form-actions"><button class="button button-dark" type="submit">ذخیره تغییرات</button></div></form>
+<div class="account-shortcuts"><a href="{{ route('cart.index') }}">مشاهده سبد خرید <x-icon name="arrow" /></a><a href="{{ route('wishlist.index') }}">مشاهده علاقه‌مندی‌ها <x-icon name="arrow" /></a></div></div></div>
+@else
+<div class="account-layout"><aside class="account-sidebar"><div class="account-avatar"><x-icon name="user" /></div><strong>مهمان شهباز</strong><span>برای دسترسی به امکانات حساب وارد شو.</span><a class="button button-dark button-full" href="{{ route('login') }}">ورود به حساب</a><a class="button button-light button-full" href="{{ route('register') }}">ساخت حساب جدید</a></aside><div class="account-main"><form class="profile-form" action="{{ route('account.guest-profile') }}" method="POST">@csrf<div class="form-heading"><h2>ذخیره اطلاعات مهمان</h2><p>می‌توانی اطلاعات تماس خود را روی این مرورگر نگه داری؛ سپس برای ساخت حساب اقدام کنی.</p></div><div class="form-grid"><label>نام و نام خانوادگی<input type="text" name="name" value="{{ old('name',$guestProfile?->name) }}" required maxlength="120"></label><label>شماره موبایل (اختیاری)<input type="tel" name="mobile" value="{{ old('mobile',$guestProfile?->mobile) }}" dir="ltr" maxlength="32"></label><label>ایمیل (اختیاری)<input type="email" name="email" value="{{ old('email',$guestProfile?->email) }}" maxlength="254"></label></div><div class="form-actions"><button class="button button-dark" type="submit">ذخیره اطلاعات</button></div></form></div></div>
+@endif
+</section>
+@endsection
